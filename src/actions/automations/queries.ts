@@ -2,27 +2,23 @@
 
 import {client} from "@/lib/prisma"
 
-export const createAutomation = async (clerkId: string, id?: string) => {
-    const user = await client.user.findUnique({
-      where: { clerkId },
-      include: { automations: true },
-    });
+// queries.ts
+export const createAutomation = async (clerkId: string, data: Partial<{ id: string; name: string }>) => {
+  console.log('Creating automation for:', clerkId, 'with data:', data);
   
-    if (user?.automations?.length) {
-      return user; // return existing automation if already created
-    }
-  
-    return await client.user.update({
-      where: { clerkId },
-      data: {
-        automations: {
-          create: {
-            ...(id && {id})
-          }
-        }
-      }
-    });
-  }
+  return await client.user.update({
+    where: { clerkId },
+    data: {
+      automations: {
+        create: {
+          ...data,
+        },
+      },
+    },
+  });
+};
+
+
   
 
   export const getAutomations = async (clerkId: string) => {

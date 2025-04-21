@@ -7,15 +7,15 @@ import { AppDisplatch, useAppSelector } from "@/redux/store"
 import { useDispatch } from "react-redux"
 import { TRIGGER } from "@/redux/slices/automation"
 
-export const useCreateAutomation = (id?: string) => {
-    const {isPending, mutate} = useMutationData(
-        ['create-automation'],
-        () => createAutomations(id),
-        'user-automations'
+export const useCreateAutomation = () => {
+    const { isPending, mutate } = useMutationData(
+      ['create-automation'],
+      (data: { id?: string; name?: string }) => createAutomations(data),
+      'user-automations'
     )
-
-    return {isPending, mutate}
-}
+  
+    return { isPending, mutate }
+  }
 
 export const useEditAutomation = (automationId: string) => {
     const [edit, setEdit] = useState(false)
